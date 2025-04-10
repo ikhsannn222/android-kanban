@@ -37,6 +37,9 @@ class Tasks {
   int? projectId;
   int? typeId;
   int? priorityId;
+  String? code;
+  int? order;
+  int? estimation;
   String? startDate;
   String? endDate;
   String? createdAt;
@@ -52,6 +55,9 @@ class Tasks {
       this.projectId,
       this.typeId,
       this.priorityId,
+      this.code,
+      this.order,
+      this.estimation,
       this.startDate,
       this.endDate,
       this.createdAt,
@@ -67,6 +73,9 @@ class Tasks {
     projectId = json['project_id'];
     typeId = json['type_id'];
     priorityId = json['priority_id'];
+    code = json['code'];
+    order = json['order'];
+    estimation = json['estimation'];
     startDate = json['start_date'];
     endDate = json['end_date'];
     createdAt = json['created_at'];
@@ -84,6 +93,9 @@ class Tasks {
     data['project_id'] = this.projectId;
     data['type_id'] = this.typeId;
     data['priority_id'] = this.priorityId;
+    data['code'] = this.code;
+    data['order'] = this.order;
+    data['estimation'] = this.estimation;
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
     data['created_at'] = this.createdAt;

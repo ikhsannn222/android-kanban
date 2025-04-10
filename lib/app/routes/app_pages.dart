@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:p5_kanban/app/modules/dashboard/views/board_view.dart';
 
-import '../modules/board/bindings/board_binding.dart';
-import '../modules/board/views/board_view.dart';
+
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -36,13 +36,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => ProfileView(),
+      page: () => const ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
       name: _Paths.BOARD,
       page: () => const BoardView(),
-      binding: BoardBinding(),
     ),
   ];
 }

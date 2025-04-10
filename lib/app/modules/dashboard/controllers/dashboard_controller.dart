@@ -2,14 +2,15 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:p5_kanban/app/data/kanban_response.dart';
-import 'package:p5_kanban/app/modules/board/views/board_view.dart';
-import 'package:p5_kanban/app/modules/profile/views/profile_view.dart';
+import 'package:p5_kanban/app/modules/dashboard/views/board_view.dart';
+import 'package:p5_kanban/app/modules/dashboard/views/profile_view.dart';
 import 'package:p5_kanban/app/utils/api.dart';
 
 
 class DashboardController extends GetxController {
-  //TODO: Implement DashboardController
   var selectedIndex = 0.obs;
+  var isLoading = false.obs;
+  final kanbanResponse = Rxn<KanbanResponse>();
 
   void changeIndex(int index) {
     selectedIndex.value = index;
@@ -21,22 +22,52 @@ class DashboardController extends GetxController {
   ];
 
   final _getConnect = GetConnect();
+//  final token = GetStorage().read('token');
+// print("📌 Token di DashboardController: $token");
 
-  final token = GetStorage().read('token');
 
-  Future<KanbanResponse> getEvent() async {
+  Future<KanbanResponse?> getTask() async {
+  isLoading.value = true;
+  try {
+    final token = GetStorage().read('token'); // 🔥 Ambil token paling baru
+
+    if (token == null) {
+      return Future.error("Token tidak ditemukan!");
+    }
+
     final response = await _getConnect.get(
       BaseUrl.task,
-      headers: {'Authorization': 'Bearer $token'},
-      contentType: 'application/json',
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
     );
-    return KanbanResponse.fromJson(response.body);
-  }
 
-  // final count = 0.obs;
+    print("📦 Response body: ${response.body}");
+
+    if (response.status.hasError) {
+      return Future.error(response.statusText ?? "Error tidak diketahui");
+    }
+
+    if (response.body != null) {
+      final result = KanbanResponse.fromJson(response.body);
+      kanbanResponse.value = result;
+      return result;
+    }
+
+    return null;
+  } catch (e) {
+    return Future.error("Terjadi kesalahan: $e");
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+
+
   @override
   void onInit() {
     super.onInit();
+    getTask();
   }
 
   @override
@@ -48,6 +79,4 @@ class DashboardController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  // void increment() => count.value++;
 }
