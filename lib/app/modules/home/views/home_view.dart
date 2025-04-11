@@ -20,8 +20,8 @@ class HomeView extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 400,
-              height: 400,
+              width: 350,
+              height: 350,
               child: Lottie.asset(
                 'assets/lottie/loading.json',
                 fit: BoxFit.contain,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:p5_kanban/app/data/profile_response.dart';
@@ -19,18 +18,19 @@ class ProfileView extends GetView<ProfileController> {
             icon: const Icon(Icons.logout),
             onPressed: () {
               Get.defaultDialog(
-                  title: "Konfirmasi",
-                  middleText: "Apakah anda ingin Logout ?",
-                  textConfirm: "Ya",
-                  textCancel: "Tidak",
-                  confirmTextColor: Colors.white,
-                  onConfirm: () {
-                    controller.logout();
-                    Get.back();
-                  },
-                  onCancel: () {
-                    Get.back();
-                  });
+                title: "Konfirmasi",
+                middleText: "Apakah anda ingin Logout ?",
+                textConfirm: "Ya",
+                textCancel: "Tidak",
+                confirmTextColor: Colors.white,
+                onConfirm: () {
+                  controller.logout();
+                  Get.back();
+                },
+                onCancel: () {
+                  Get.back();
+                },
+              );
             },
           ),
         ],
@@ -43,13 +43,13 @@ class ProfileView extends GetView<ProfileController> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: Lottie.network(
-                    'https://gist.githubusercontent.com/olipiskandar/4f08ac098c81c32ebc02c55f5b11127b/raw/6e21dc500323da795e8b61b5558748b5c7885157/loading.json',
-                    repeat: true,
-                    width: MediaQuery.of(context).size.width / 1,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Text("Loading animation failed");
-                    },
+                  child: SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Lottie.asset(
+                      'assets/lottie/profile.json',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 );
               }
@@ -66,23 +66,88 @@ class ProfileView extends GetView<ProfileController> {
                 return const Center(child: Text("No profile data available"));
               }
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (data.avatar != null)
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(data.avatar!),
-                      radius: 50,
-                    ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "${data.name}",
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+              // Assuming you have data for names (departmentName, jabatanName, etc.)
+              final departmentName = data.departementId != null ? "Department Name" : "Not Available";  // Replace with real name data
+              final jabatanName = data.jabatanId != null ? "Jabatan Name" : "Not Available"; // Replace with real name data
+              final bagianName = data.bagianId != null ? "Bagian Name" : "Not Available"; // Replace with real name data
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 3,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(" ${data.email}"),
-                ],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (data.avatar != null)
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(data.avatar!),
+                          radius: 70, // Increase the size
+                        ),
+                      const SizedBox(height: 16),
+                      Text(
+                        "${data.name}",
+                        style: const TextStyle(
+                          fontSize: 24, // Larger font size
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Email: ${data.email}",
+                        style: const TextStyle(
+                          fontSize: 18, // Larger font size
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "NRP: ${data.nrp ?? 'Not Available'}",
+                        style: const TextStyle(
+                          fontSize: 18, // Larger font size
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Active: ${data.isActive == 1 ? 'Yes' : 'No'}",
+                        style: const TextStyle(
+                          fontSize: 18, // Larger font size
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Departemen: $departmentName",
+                        style: const TextStyle(
+                          fontSize: 18, // Larger font size
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Jabatan: $jabatanName",
+                        style: const TextStyle(
+                          fontSize: 18, // Larger font size
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Bagian: $bagianName",
+                        style: const TextStyle(
+                          fontSize: 18, // Larger font size
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               );
             },
           ),

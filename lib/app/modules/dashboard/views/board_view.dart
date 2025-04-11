@@ -27,14 +27,16 @@ class BoardView extends GetView<DashboardController> {
         child: Obx(() {
           if (controller.isLoading.value) {
             return Center(
-              child: Lottie.network(
-                'https://gist.githubusercontent.com/olipiskandar/4f08ac098c81c32ebc02c55f5b11127b/raw/6e21dc500323da795e8b61b5558748b5c7885157/loading.json',
-                repeat: true,
-                width: MediaQuery.of(context).size.width / 1,
-              ),
-            );
-          }
-
+              child: SizedBox(
+              width: 200,
+              height: 200,
+              child: Lottie.asset(
+              'assets/lottie/board-2.json',
+              fit: BoxFit.contain,
+            ),
+          ),
+        );
+      }
           final tasks = controller.kanbanResponse.value?.tasks;
 
           if (tasks == null || tasks.isEmpty) {
