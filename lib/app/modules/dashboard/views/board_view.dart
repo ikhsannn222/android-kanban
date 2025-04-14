@@ -13,12 +13,12 @@ class BoardView extends GetView<DashboardController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Board'),
+        title: const Text('Project List'),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => controller.getTask(),
+            onPressed: () => controller.getProjects(), // Ganti ini sesuai method-mu
           ),
         ],
       ),
@@ -28,26 +28,27 @@ class BoardView extends GetView<DashboardController> {
           if (controller.isLoading.value) {
             return Center(
               child: SizedBox(
-              width: 200,
-              height: 200,
-              child: Lottie.asset(
-              'assets/lottie/board-2.json',
-              fit: BoxFit.contain,
-            ),
-          ),
-        );
-      }
-          final tasks = controller.kanbanResponse.value?.tasks;
+                width: 200,
+                height: 200,
+                child: Lottie.asset(
+                  'assets/lottie/board-2.json',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            );
+          }
 
-          if (tasks == null || tasks.isEmpty) {
+          final projects = controller.projectResponse.value?.projects;
+
+          if (projects == null || projects.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Tidak ada data task"),
+                  const Text("Tidak ada data project"),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () => controller.getTask(),
+                    onPressed: () => controller.getProjects(),
                     child: const Text("Refresh"),
                   ),
                 ],
@@ -56,11 +57,10 @@ class BoardView extends GetView<DashboardController> {
           }
 
           return ListView.builder(
-            itemCount: tasks.length,
+            itemCount: projects.length,
             controller: scrollController,
-            shrinkWrap: true,
             itemBuilder: (context, index) {
-              final task = tasks[index];
+              final project = projects[index];
 
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
@@ -71,7 +71,7 @@ class BoardView extends GetView<DashboardController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        task.name ?? 'No Title',
+                        project.name ?? 'No Title',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -79,27 +79,31 @@ class BoardView extends GetView<DashboardController> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        task.content ?? 'No Content',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
+                        project.description ?? 'No Description',
+                        style: const TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Chip(
-                            label: Text("ID: ${task.id}"),
+                            label: Text("ID: ${project.id}"),
                             backgroundColor: Colors.blue.shade100,
                           ),
                           Text(
-                            "Status: ${task.statusId}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
+                            "Status: ${project.status?.name ?? 'Unknown'}",
+                            style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
+                      const SizedBox(height: 8),
+                      if (project.owner != null)
+                        Text(
+                          "Owner: ${project.owner!.name ?? 'No Name'}",
+                          style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
                     ],
                   ),
                 ),

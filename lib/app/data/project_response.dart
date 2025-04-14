@@ -136,7 +136,7 @@ class Owner {
     emailVerifiedAt = json['email_verified_at'];
     isActive = json['is_active'];
     departementId = json['departement_id'];
-    jabatanId = json['jabatan_id'];
+    jabatanId = json['jabatan_id']; 
     bagianId = json['bagian_id'];
     avatar = json['avatar'];
     createdAt = json['created_at'];
