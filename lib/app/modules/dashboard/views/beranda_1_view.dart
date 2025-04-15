@@ -27,11 +27,11 @@ class BerandaView extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
-        final tasks = controller.kanbanResponse.value?.tasks ?? [];
+        final projects = controller.projectResponse.value?.projects ?? [];
 
-        final totalTugas = tasks.length;
-        final tugasSelesai = tasks.where((task) => task.statusId == 3).length;
-        final tugasBelumSelesai = totalTugas - tugasSelesai;
+        final totalProjects = projects.length;
+        final projectsSelesai = projects.where((project) => project.statusId == 3).length;
+        final projectsBelumSelesai = totalProjects - projectsSelesai;
 
         return SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -45,7 +45,7 @@ class BerandaView extends StatelessWidget {
                   Expanded(
                     child: _statCard(
                       title: "Belum Selesai",
-                      value: "$tugasBelumSelesai",
+                      value: "$projectsBelumSelesai",
                       icon: Icons.schedule,
                       gradient: const LinearGradient(
                         colors: [
@@ -59,7 +59,7 @@ class BerandaView extends StatelessWidget {
                   Expanded(
                     child: _statCard(
                       title: "Selesai",
-                      value: "$tugasSelesai",
+                      value: "$projectsSelesai",
                       icon: Icons.check_circle,
                       gradient: const LinearGradient(
                         colors: [Color.fromARGB(255, 9, 234, 114), Color(0xFF22D3EE)],
@@ -70,8 +70,8 @@ class BerandaView extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _statCard(
-                title: "Total Tugas",
-                value: "$totalTugas",
+                title: "Total Project",
+                value: "$totalProjects",
                 icon: Icons.assignment,
                 gradient: const LinearGradient(
                   colors: [Color(0xFF818CF8), Color(0xFFEC4899)],
@@ -131,7 +131,7 @@ class BerandaView extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            "Selamat datang kembali di Intra-Sub. Yuk, kelola tugasmu hari ini!",
+            "Selamat datang kembali di Intra-Sub. Yuk, kelola proyekmu hari ini!",
             style: TextStyle(color: Colors.white70, fontSize: 16),
           ),
         ],
