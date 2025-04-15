@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
-import 'package:p5_kanban/app/modules/dashboard/views/board_view.dart';
-
 
 import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/board_view.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/kanban/bindings/kanban_binding.dart';
+import '../modules/kanban/views/kanban_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -42,6 +43,11 @@ class AppPages {
     GetPage(
       name: _Paths.BOARD,
       page: () => const BoardView(),
+    ),
+    GetPage(
+      name: _Paths.KANBAN,
+      page: () => const KanbanView(),
+      binding: KanbanBinding(),
     ),
   ];
 }
