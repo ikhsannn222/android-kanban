@@ -1,3 +1,5 @@
+// kanban_response.dart
+
 class TaskStatusResponse {
   bool? success;
   String? message;
@@ -11,17 +13,17 @@ class TaskStatusResponse {
     if (json['taskStatus'] != null) {
       taskStatus = <TaskStatus>[];
       json['taskStatus'].forEach((v) {
-        taskStatus!.add(new TaskStatus.fromJson(v));
+        taskStatus!.add(TaskStatus.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
-    if (this.taskStatus != null) {
-      data['taskStatus'] = this.taskStatus!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = {};
+    data['success'] = success;
+    data['message'] = message;
+    if (taskStatus != null) {
+      data['taskStatus'] = taskStatus!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -36,14 +38,15 @@ class TaskStatus {
   String? createdAt;
   String? updatedAt;
 
-  TaskStatus(
-      {this.id,
-      this.name,
-      this.color,
-      this.isDefault,
-      this.order,
-      this.createdAt,
-      this.updatedAt});
+  TaskStatus({
+    this.id,
+    this.name,
+    this.color,
+    this.isDefault,
+    this.order,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   TaskStatus.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -56,14 +59,14 @@ class TaskStatus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['color'] = this.color;
-    data['is_default'] = this.isDefault;
-    data['order'] = this.order;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['name'] = name;
+    data['color'] = color;
+    data['is_default'] = isDefault;
+    data['order'] = order;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

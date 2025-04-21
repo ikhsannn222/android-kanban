@@ -5,6 +5,7 @@ import 'package:p5_kanban/app/data/taskstatus_response.dart';
 import 'package:p5_kanban/app/utils/api.dart';
 
 class KanbanController extends GetxController {
+  var currentProjectId = 0.obs;
   final box = GetStorage();
   final _getConnect = GetConnect();
   final token = GetStorage().read('token');
@@ -33,7 +34,7 @@ class KanbanController extends GetxController {
     }
   }
 
-  Future<KanbanResponse?> getTask([int? projectId]) async {
+  Future<KanbanResponse?> getTask(int projectId) async {
     isLoading.value = true;
     try {
       if (token == null) {
@@ -91,7 +92,7 @@ class KanbanController extends GetxController {
       final taskList = kanbanResponse.value?.tasks;
       final index = taskList?.indexWhere((t) => t.id == taskId);
       if (index != null && index >= 0) {
-        taskList![index!] = taskList[index!].copyWith(
+        taskList![index] = taskList[index].copyWith(
           statusId: newStatusId,
           status: Status(id: newStatusId, name: newStatusName, color: newStatusColor),
         );
